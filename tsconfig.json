@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "esnext",
+    "moduleResolution": "node",
+    "removeComments": false,
+    "strict": true
+  },
+  "include": ["test/**/*"],
+  "exclude": ["node_modules"]
+}
