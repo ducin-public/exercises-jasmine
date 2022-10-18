@@ -1,15 +1,14 @@
-import { EventEmitter } from './event-emitter';
+import { PubSub } from './pubsub';
 
-describe('Event Emitter', function(){
+describe('Publisher-Subscriber', function(){
 
-	// for each test, there's a new EventEmitter instance created separately
+	let pubsub: PubSub,
+		consumerA: jasmine.Spy<jasmine.Func>,
+		consumerB: jasmine.Spy<jasmine.Func>,
+		consumerC: jasmine.Spy<jasmine.Func>;
 
-	let ee: EventEmitter,
-		consumerA: Function,
-		consumerB: Function,
-		consumerC: Function;
 	beforeEach(function(){
-		ee = new EventEmitter();
+		pubsub = new PubSub();
 		consumerA = jasmine.createSpy('consumerA');
 		consumerB = jasmine.createSpy('consumerB');
 		consumerC = jasmine.createSpy('consumerC');
@@ -17,7 +16,7 @@ describe('Event Emitter', function(){
 
 	it("doesn't emit any message if there's no listener", function(){
 		let message = { operation: "PROCESS"};
-		ee.trigger('operations', message);
+		pubsub.publish('operations', message);
 
 		expect(consumerA).not.toHaveBeenCalled();
 		expect(consumerB).not.toHaveBeenCalled();
@@ -25,10 +24,10 @@ describe('Event Emitter', function(){
 	});
 
 	it('emits a message to a single listener', function(){
-		ee.on('operations', consumerA);
+		pubsub.subscribe('operations', consumerA);
 
 		let message = { operation: "PROCESS"};
-		ee.trigger('operations', message);
+		pubsub.publish('operations', message);
 
 		expect(consumerA).toHaveBeenCalledWith(message);
 		expect(consumerB).not.toHaveBeenCalled();
@@ -36,12 +35,12 @@ describe('Event Emitter', function(){
 	});
 
 	it('emits a message to multiple listeners', function(){
-		ee.on('operations', consumerA);
-		ee.on('operations', consumerB);
-		ee.on('operations', consumerC);
+		pubsub.subscribe('operations', consumerA);
+		pubsub.subscribe('operations', consumerB);
+		pubsub.subscribe('operations', consumerC);
 
 		let message = { operation: "PROCESS"};
-		ee.trigger('operations', message);
+		pubsub.publish('operations', message);
 
 		expect(consumerA).toHaveBeenCalledWith(message);
 		expect(consumerB).toHaveBeenCalledWith(message);
@@ -49,13 +48,13 @@ describe('Event Emitter', function(){
 	});
 
 	it('emits messages on a certain channel', function(){
-		ee.on('operations', consumerA);
+		pubsub.subscribe('operations', consumerA);
 
 		let message1 = { operation: "PROCESS"};
-		ee.trigger('operations', message1);
+		pubsub.publish('operations', message1);
 
-		let message2 = "No more cookies for you!";
-		ee.trigger('alerts', message2);
+		let message2 = { data: "No more cookies for you!" };
+		pubsub.publish('alerts', message2);
 
 		expect(consumerA).toHaveBeenCalledWith(message1);
 		expect(consumerA).not.toHaveBeenCalledWith(message2);
@@ -64,17 +63,17 @@ describe('Event Emitter', function(){
 	});
 
 	it('emits messages on multiple channels', function(){
-		ee.on('operations', consumerA);
-		ee.on('operations', consumerB);
+		pubsub.subscribe('operations', consumerA);
+		pubsub.subscribe('operations', consumerB);
 
-		ee.on('alerts', consumerB);
-		ee.on('alerts', consumerC);
+		pubsub.subscribe('alerts', consumerB);
+		pubsub.subscribe('alerts', consumerC);
 
 		let message1 = { operation: "PROCESS"};
-		ee.trigger('operations', message1);
+		pubsub.publish('operations', message1);
 
-		let message2 = "No more cookies for you!";
-		ee.trigger('alerts', message2);
+		let message2 = { data: "No more cookies for you!" };
+		pubsub.publish('alerts', message2);
 
 		expect(consumerA).toHaveBeenCalledWith(message1);
 		expect(consumerB).toHaveBeenCalledWith(message1);
@@ -85,33 +84,60 @@ describe('Event Emitter', function(){
 	});
 
 	it('stops emitting messages to unsubscribed listeners', function(){
-		ee.on('operations', consumerA);
+		pubsub.subscribe('operations', consumerA);
 
 		let message1 = { operation: "PROCESS-1"};
-		ee.trigger('operations', message1);
+		pubsub.publish('operations', message1);
 
 		expect(consumerA).toHaveBeenCalledWith(message1);
 		expect(consumerB).not.toHaveBeenCalledWith(message1);
 		expect(consumerC).not.toHaveBeenCalledWith(message1);
 
-		ee.off('operations', consumerA);
-		ee.on('operations', consumerB);
+		pubsub.unsubscribe('operations', consumerA);
+		pubsub.subscribe('operations', consumerB);
 
 		let message2 = { operation: "PROCESS-2"};
-		ee.trigger('operations', message2);
+		pubsub.publish('operations', message2);
 
 		expect(consumerA).not.toHaveBeenCalledWith(message2);
 		expect(consumerB).toHaveBeenCalledWith(message2);
 		expect(consumerC).not.toHaveBeenCalledWith(message2);
 
-		ee.off('operations', consumerB);
-		ee.on('operations', consumerC);
+		pubsub.unsubscribe('operations', consumerB);
+		pubsub.subscribe('operations', consumerC);
 
 		let message3 = { operation: "PROCESS-3"};
-		ee.trigger('operations', message3);
+		pubsub.publish('operations', message3);
 
 		expect(consumerA).not.toHaveBeenCalledWith(message3);
 		expect(consumerB).not.toHaveBeenCalledWith(message3);
 		expect(consumerC).toHaveBeenCalledWith(message3);
+	});
+
+	it('supports alias methods (on, off)', () => {
+		expect(consumerA).not.toHaveBeenCalled();
+		pubsub.on('operations', consumerA);
+
+		let message1 = { operation: "PROCESS-1"};
+		pubsub.publish('operations', message1);
+
+		expect(consumerA).toHaveBeenCalledWith(message1);
+
+		pubsub.off('operations', consumerA);
+
+		let message2 = { operation: "PROCESS-2"};
+		pubsub.publish('operations', message2);
+
+		expect(consumerA).not.toHaveBeenCalledWith(message2);
+	});
+
+	it('emits last message on a given channel even if the listener came later than message was sent (publish last)', () => {
+		expect(consumerA).not.toHaveBeenCalled();
+
+		let message = { operation: "PROCESS"};
+		pubsub.publish('operations', message);
+
+		pubsub.subscribe('operations', consumerA);
+		expect(consumerA).toHaveBeenCalledWith(message);
 	});
 });
