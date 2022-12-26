@@ -42,11 +42,11 @@ describe('Data Filtering', () => {
 		expect(FullStackDevs.length).toEqual(442);
 	});
 
-	it('can filter FullStack developers with pretty small (3000-5000) salary', () => {
+	it('can filter FullStack developers with pretty small salary: 3000-5000 (including boundaries, <= / >=)', () => {
 		// find all fullstack developers with pretty small (3000-5000) salary
-		let theseGuys;
+		let thesePeople;
 
-		expect(theseGuys.length).toEqual(97);
+		expect(thesePeople.length).toEqual(97);
 	});
 
 	it('can filter employees having at least n skills', () => {
@@ -69,30 +69,30 @@ describe('Data Filtering', () => {
 
 	it('can filter employees whose account expires in a particular period of time', () => {
 		// find employees byaccount expiration date range
-		let theseGuys;
+		let thesePeople;
 
 		const period1Start = '2018-12-01', period1End = '2018-12-31';
-		expect(theseGuys.length).toEqual(43);
+		expect(thesePeople.length).toEqual(43);
 
 		const period2Start = new Date('2019-01-01'), period2End = new Date('2019-01-31');
-		expect(theseGuys.length).toEqual(34);
+		expect(thesePeople.length).toEqual(34);
 	});
 
 	it('can filter FullStack developers with a specified range of salary', () => {
 		// find employees by salary ranges
-		let theseGuys;
+		let thesePeople;
 
 		// salary 3000+
-		expect(theseGuys.length).toEqual(340);
+		expect(thesePeople.length).toEqual(340);
 
 		// salary 5000-
-		expect(theseGuys.length).toEqual(199);
+		expect(thesePeople.length).toEqual(199);
 
 		// salary 3000-5000
-		expect(theseGuys.length).toEqual(97);
+		expect(thesePeople.length).toEqual(97);
 
 		// salary: any
-		expect(theseGuys.length).toEqual(employees.filter(isFullStack).length);
+		expect(thesePeople.length).toEqual(employees.filter(isFullStack).length);
 	});
 
 	it('can filter employees who work in small offices (at most 50 people in an office)', () => {
