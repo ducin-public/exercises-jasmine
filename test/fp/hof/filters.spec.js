@@ -97,14 +97,14 @@ describe('Data Filtering', () => {
 
 	it('can filter employees who work in small offices (at most 50 people in an office)', () => {
 		// find all employees working in small offices (< 50 employees)
-		let GuysWorkingInSmallOffices;
+		let PeopleWorkingInSmallOffices;
 
 		// find other employees (working in offices with >= 50 employees)
-		let GuysWorkingInBigOffices;
+		let PeopleWorkingInBigOffices;
 
-		expect(GuysWorkingInSmallOffices.length).toEqual(557);
+		expect(PeopleWorkingInSmallOffices.length).toEqual(557);
 
-		expect(GuysWorkingInBigOffices.length).toEqual(754);
+		expect(PeopleWorkingInBigOffices.length).toEqual(754);
 	});
 
 	it('can filter employees who have (or) have no benefits', () => {
