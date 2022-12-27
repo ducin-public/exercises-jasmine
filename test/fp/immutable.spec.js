@@ -7,7 +7,7 @@ const todosMap = todos.reduce((todoMap, todo) => {
 	return todoMap
 }, {})
 
-describe('Immutable ES6 operations', () => {
+describe('Immutable Operations', () => {
 
 	const john = {
 		firstname: "John",
@@ -24,7 +24,7 @@ describe('Immutable ES6 operations', () => {
 		salary: 5000
 	}
 
-	it('merge two objects', () => {
+	it('`merge2objects` should merge two objects', () => {
 		// define `merge2objects` function here
 		// for 2 given parameters, the function returns an new merged object 
 
@@ -37,7 +37,7 @@ describe('Immutable ES6 operations', () => {
 		})
 	})
 
-	it('merging multiple objects', () => {
+	it('`mergeManyObjects` should merge multiple objects', () => {
 		// define `mergeManyObjects` function here
 		// same as above, but accepts multiple objects as input parameters 
 
@@ -50,7 +50,7 @@ describe('Immutable ES6 operations', () => {
 		})
 	})
 
-	it('strip static attribute from objects', () => {
+	it('`stripId` should produce a new object without `id` (remove static attribute)', () => {
 		// define `stripId` function here
 		// it will return an immutable version of input object with `id` removed
 
@@ -83,7 +83,7 @@ describe('Immutable ES6 operations', () => {
 		}])
 	})
 
-	it('strip dynamic attribute from objects', () => {
+	it('`stripKey` should produce a new object without key (remove dynamic attribute)', () => {
 		// define `stripKey` function here
 		// same as above, but accepts the key as the 1st param (it's not hardcoded)
 		// and the object itself as the 2nd param
@@ -105,7 +105,7 @@ describe('Immutable ES6 operations', () => {
 			})
 	})
 
-	it('default object properties', () => {
+	it('`withDefault` should produce objects always containing the `marked` property', () => {
 		// define `newTodo` function here
 		// it is supposed to fill the output object with `marked: false`, if marked is not passed in input
 
@@ -134,8 +134,8 @@ describe('Immutable ES6 operations', () => {
 	})
 })
 
-describe('Immutable operations usecases: State Objects', () => {
-	it('change nested attribute', () => {
+describe('Immutable State Objects', () => {
+	it('should change nested attribute', () => {
 		const state = {
 			home: {
 				todos: todos,
@@ -159,197 +159,225 @@ describe('Immutable operations usecases: State Objects', () => {
 		expect(state.work).toBe(newState.work)
 	})
 
-	it('clear an array collection', () => {
-		const state = {
-			home: {
-				todos: todos,
-				filter: "ALL"
-			},
-			work: {
-				todos: [],
-				filter: "ALL"
+	describe('Array Collection', () => {
+		it('should append at the end of the array collection', () => {
+			const state = {
+				home: {
+					todos: todos,
+					filter: "ALL"
+				},
+				work: {
+					todos: [],
+					filter: "ALL"
+				}
 			}
-		}
+	
+			const section = 'home'
+			const newItem = {
+				id: "4e30f8290ab3-ea75-44f7-78c9-fab461b55d03",
+				title: 'buy some beer',
+				marked: false
+			}
+	
+			const newState = {} // calculate newState
+	
+			// value checks
+			expect(state.home.todos.length + 1).toEqual(newState.home.todos.length)
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.home).not.toBe(newState.home)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+			expect(state.work).toBe(newState.work)
+		})
 
-		const section = 'home'
+		it('should clear the array collection', () => {
+			const state = {
+				home: {
+					todos: todos,
+					filter: "ALL"
+				},
+				work: {
+					todos: [],
+					filter: "ALL"
+				}
+			}
+	
+			const section = 'home'
+	
+			const newState = {} // calculate newState
+	
+			// value checks
+			expect(newState.home.todos).toEqual([])
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.work.todos).toBe(newState.work.todos)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+		})
 
-		const newState = {} // calculate newState
+		it('should clear all marked todos within the array collection', () => {
+			const state = {
+				home: {
+					todos: todos,
+					filter: "ALL"
+				},
+				work: {
+					todos: [],
+					filter: "ALL"
+				}
+			}
+	
+			const section = "home"
+	
+			const newState = {} // calculate newState
+	
+			// value checks
+			expect(state.home.todos.length).toEqual(30)
+			expect(newState.home.todos.length).toEqual(12)
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.home).not.toBe(newState.home)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+			expect(state.work).toBe(newState.work)
+		})
 
-		// value checks
-		expect(newState.home.todos).toEqual([])
-		// reference checks
-		expect(state).not.toBe(newState)
-		expect(state.work.todos).toBe(newState.work.todos)
-		expect(state.home.todos).not.toBe(newState.home.todos)
+		it('should toggle `marked` attr for a todo within the array collection', () => {
+			const state = {
+				home: {
+					todos: todos,
+					filter: "ALL"
+				},
+				work: {
+					todos: [],
+					filter: "ALL"
+				}
+			}
+	
+			const section = "home"
+			const todoId = "ac518c53-d65f-422d-8dc2-550ea6719870"
+	
+			const newState = {} // calculate newState
+	
+			const idx = state.home.todos.findIndex(t => t.id === todoId)
+			// value checks
+			expect(state.home.todos.length).toEqual(newState.home.todos.length)
+			expect(state.home.todos[idx].marked).not.toBe(newState.home.todos[idx].marked)
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.home).not.toBe(newState.home)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+			expect(state.home.todos[idx]).not.toBe(newState.home.todos[idx])
+			expect(state.work).toBe(newState.work)
+		})
 	})
 
-	it('append at the end of a nested array collection', () => {
-		const state = {
-			home: {
-				todos: todos,
-				filter: "ALL"
-			},
-			work: {
-				todos: [],
-				filter: "ALL"
+	describe('Map Collection', () => {
+		it('should append to the nested map collection', () => {
+			const state = {
+				home: {
+					todos: todosMap,
+					filter: "ALL"
+				},
+				work: {
+					todos: {},
+					filter: "ALL"
+				}
 			}
-		}
-
-		const section = 'home'
-		const newItem = {
-			id: "4e30f8290ab3-ea75-44f7-78c9-fab461b55d03",
-			title: 'buy some beer',
-			marked: false
-		}
-
-		const newState = {} // calculate newState
-
-		// value checks
-		expect(state.home.todos.length + 1).toEqual(newState.home.todos.length)
-		// reference checks
-		expect(state).not.toBe(newState)
-		expect(state.home).not.toBe(newState.home)
-		expect(state.home.todos).not.toBe(newState.home.todos)
-		expect(state.work).toBe(newState.work)
-	})
-
-	it('toggle marked attr for a todo within an array collection', () => {
-		const state = {
-			home: {
-				todos: todos,
-				filter: "ALL"
-			},
-			work: {
-				todos: [],
-				filter: "ALL"
+	
+			const section = 'home'
+			const newItem = {
+				id: "4e30f8290ab3-ea75-44f7-78c9-fab461b55d03",
+				title: 'buy some beer',
+				marked: false
 			}
-		}
+	
+			const newState = {} // calculate newState
+	
+			const keysLen = obj => Object.keys(obj).length
+			// value checks
+			expect(keysLen(state.home.todos) + 1).toEqual(keysLen(newState.home.todos))
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.home).not.toBe(newState.home)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+			expect(state.work).toBe(newState.work)
+		})
 
-		const section = "home"
-		const todoId = "ac518c53-d65f-422d-8dc2-550ea6719870"
-
-		const newState = {} // calculate newState
-
-		const idx = state.home.todos.findIndex(t => t.id === todoId)
-		// value checks
-		expect(state.home.todos.length).toEqual(newState.home.todos.length)
-		expect(state.home.todos[idx].marked).not.toBe(newState.home.todos[idx].marked)
-		// reference checks
-		expect(state).not.toBe(newState)
-		expect(state.home).not.toBe(newState.home)
-		expect(state.home.todos).not.toBe(newState.home.todos)
-		expect(state.home.todos[idx]).not.toBe(newState.home.todos[idx])
-		expect(state.work).toBe(newState.work)
-	})
-
-	it('append to a nested map collection', () => {
-		const state = {
-			home: {
-				todos: todosMap,
-				filter: "ALL"
-			},
-			work: {
-				todos: {},
-				filter: "ALL"
+		it('should clear the map collection', () => {
+			const state = {
+				home: {
+					todos: todosMap,
+					filter: "ALL"
+				},
+				work: {
+					todos: {},
+					filter: "ALL"
+				}
 			}
-		}
+	
+			const section = 'home'
 
-		const section = 'home'
-		const newItem = {
-			id: "4e30f8290ab3-ea75-44f7-78c9-fab461b55d03",
-			title: 'buy some beer',
-			marked: false
-		}
+			const newState = {} // calculate newState
+	
+			// value checks
+			expect(newState.home.todos).toEqual({})
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.work.todos).toBe(newState.work.todos)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+		})
 
-		const newState = {} // calculate newState
-
-		const keysLen = obj => Object.keys(obj).length
-		// value checks
-		expect(keysLen(state.home.todos) + 1).toEqual(keysLen(newState.home.todos))
-		// reference checks
-		expect(state).not.toBe(newState)
-		expect(state.home).not.toBe(newState.home)
-		expect(state.home.todos).not.toBe(newState.home.todos)
-		expect(state.work).toBe(newState.work)
-	})
-
-	it('toggle marked attr for a todo within an map collection', () => {
-		const state = {
-			home: {
-				todos: todosMap,
-				filter: "ALL"
-			},
-			work: {
-				todos: {},
-				filter: "ALL"
+		it('clear all marked todos within a map collection', () => {
+			const state = {
+				home: {
+					todos: todosMap,
+					filter: "ALL"
+				},
+				work: {
+					todos: {},
+					filter: "ALL"
+				}
 			}
-		}
-
-		const section = "home"
-		const todoId = "ac518c53-d65f-422d-8dc2-550ea6719870"
-
-		const newState = {} // calculate newState
-
-		// value checks
-		expect(state.home.todos[todoId].marked).not.toEqual(newState.home.todos[todoId].marked)
-		// reference checks
-		expect(state).not.toBe(newState)
-		expect(state.home).not.toBe(newState.home)
-		expect(state.home.todos).not.toBe(newState.home.todos)
-		expect(state.home.todos[todoId]).not.toBe(newState.home.todos[todoId])
-		expect(state.work).toBe(newState.work)
-	})
-
-	it('clear all marked todos within an array collection', () => {
-		const state = {
-			home: {
-				todos: todos,
-				filter: "ALL"
-			},
-			work: {
-				todos: [],
-				filter: "ALL"
+	
+			const section = "home"
+	
+			const newState = {} // calculate newState
+	
+			const keysLen = obj => Object.keys(obj).length
+			// value checks
+			expect(keysLen(state.home.todos)).toEqual(30)
+			expect(keysLen(newState.home.todos)).toEqual(12)
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.home).not.toBe(newState.home)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+			expect(state.work).toBe(newState.work)
+		})
+	
+		it('toggle marked attr for a todo within an map collection', () => {
+			const state = {
+				home: {
+					todos: todosMap,
+					filter: "ALL"
+				},
+				work: {
+					todos: {},
+					filter: "ALL"
+				}
 			}
-		}
-
-		const section = "home"
-
-		const newState = {} // calculate newState
-
-		// value checks
-		expect(state.home.todos.length).toEqual(30)
-		expect(newState.home.todos.length).toEqual(12)
-		// reference checks
-		expect(state).not.toBe(newState)
-		expect(state.home).not.toBe(newState.home)
-		expect(state.home.todos).not.toBe(newState.home.todos)
-		expect(state.work).toBe(newState.work)
-	})
-
-	it('clear all marked todos within a map collection', () => {
-		const state = {
-			home: {
-				todos: todosMap,
-				filter: "ALL"
-			},
-			work: {
-				todos: {},
-				filter: "ALL"
-			}
-		}
-
-		const section = "home"
-
-		const newState = {} // calculate newState
-
-		const keysLen = obj => Object.keys(obj).length
-		// value checks
-		expect(keysLen(state.home.todos)).toEqual(30)
-		expect(keysLen(newState.home.todos)).toEqual(12)
-		// reference checks
-		expect(state).not.toBe(newState)
-		expect(state.home).not.toBe(newState.home)
-		expect(state.home.todos).not.toBe(newState.home.todos)
-		expect(state.work).toBe(newState.work)
+	
+			const section = "home"
+			const todoId = "ac518c53-d65f-422d-8dc2-550ea6719870"
+	
+			const newState = {} // calculate newState
+	
+			// value checks
+			expect(state.home.todos[todoId].marked).not.toEqual(newState.home.todos[todoId].marked)
+			// reference checks
+			expect(state).not.toBe(newState)
+			expect(state.home).not.toBe(newState.home)
+			expect(state.home.todos).not.toBe(newState.home.todos)
+			expect(state.home.todos[todoId]).not.toBe(newState.home.todos[todoId])
+			expect(state.work).toBe(newState.work)
+		})
 	})
 })
