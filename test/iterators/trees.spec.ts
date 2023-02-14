@@ -44,12 +44,12 @@ describe('Tree Iterators', () => {
       // define traverseDepth function here
 
       let tmp1 = '';
-      const op1 = (item) => tmp1 += item;
+      const op1 = (item: string) => tmp1 += item;
       traverseDepth(tree, op1);
       expect(tmp1).toEqual('ABEFGCMRNSD');
 
       let tmp2 = [];
-      const op2 = (item) => tmp2.push(item);
+      const op2 = (item: string) => tmp2.push(item);
       traverseDepth(tree, op2);
       expect(tmp2).toEqual(['A', 'B', 'E', 'F', 'G', 'C', 'M', 'R', 'N', 'S', 'D']);
     })
@@ -61,12 +61,12 @@ describe('Tree Iterators', () => {
       // define traverseBreadth function here
 
       let tmp1 = '';
-      const op1 = (item) => tmp1 += item;
+      const op1 = (item: string) => tmp1 += item;
       traverseBreadth(tree, op1);
       expect(tmp1).toEqual('ABCDEFGMNRS');
 
       let tmp2 = [];
-      const op2 = (item) => tmp2.push(item);
+      const op2 = (item: string) => tmp2.push(item);
       traverseBreadth(tree, op2);
       expect(tmp2).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'M', 'N', 'R', 'S']);
     })
