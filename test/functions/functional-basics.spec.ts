@@ -1,4 +1,4 @@
-describe('Functional programming', function(){
+describe('Functional programming', () => {
 
 	var list3 = [3, 6, 12, 24, 36, 39, 51, 63];
 	var list5 = [5, 15, 30, 40, 45, 55, 105];
@@ -61,7 +61,7 @@ describe('Functional programming', function(){
 		expect(list5times5filteredEvenSum).toEqual(350);
 	});
 
-	it('reverses lists', function(){
+	it('reverses lists', () => {
 		// reverse both arrays
 		// but be careful - don't alter original arrays!
 

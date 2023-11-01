@@ -70,11 +70,11 @@ describe('Object Types', () => {
 	
 			function *gen(){}
 			expect(typeof gen).toEqual( /* YOUR ANSWER HERE */ );
-      expect(typeof gen()).toEqual( /* YOUR ANSWER HERE */ );
+			expect(typeof gen()).toEqual( /* YOUR ANSWER HERE */ );
 
-      expect(typeof (function(){ return 5 })()).toEqual( /* YOUR ANSWER HERE */ );
-      expect(typeof (function(){})()).toEqual( /* YOUR ANSWER HERE */ );
-      expect(typeof (async function(){})()).toEqual( /* YOUR ANSWER HERE */ );
+			expect(typeof (function(){ return 5 })()).toEqual( /* YOUR ANSWER HERE */ );
+			expect(typeof (function(){})()).toEqual( /* YOUR ANSWER HERE */ );
+			expect(typeof (async function(){})()).toEqual( /* YOUR ANSWER HERE */ );
 		});
 	});
 

@@ -19,7 +19,7 @@ describe('Asynchronous Tests', () => {
 	// Call the `done` function _after_ the assertion check and spy call (this ensures
 	// that done is called asynchronously and NOT synchronously)
 
-	it('finish gracefully if setTimeout callback calls `done` explicitly', (done) => {
+	it('should finish gracefully if setTimeout callback calls `done` explicitly', (done) => {
 		let ok = false;
 		setTimeout(() => {
 			ok = true;
@@ -32,7 +32,7 @@ describe('Asynchronous Tests', () => {
 		setTimeout(() => res(value), delay);
 	});
 
-	it('finish gracefully if Promise callback calls `done` explicitly', (done) => {
+	it('should finish gracefully if Promise callback calls `done` explicitly', (done) => {
 		resolveDelay(false, 1000)
 			.then(value => true)
 			.then(value => {

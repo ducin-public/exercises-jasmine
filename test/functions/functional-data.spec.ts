@@ -1,13 +1,13 @@
 import db, { Employee } from '../../data/data';
 
-describe('Functional programming', function(){
+describe('Functional programming', () => {
 	// database is defined in data/data.js file
 	const employees = db.getEmployees();
 	const projects = db.getProjects();
 
-	describe('Processing data simple scenarios', function(){
+	describe('Processing data simple scenarios', () => {
 
-		it('is possible using for loop, yet inconvenient', function(){
+		it('is possible using for loop, yet inconvenient', () => {
 			// calculate total amount of bonus
 			// given to all employees with nationality equal "DE"
 			// whose salary is below 5000
@@ -20,7 +20,7 @@ describe('Functional programming', function(){
 			expect(totalBonus).toEqual(42499);
 		});
 
-		it('is more readable and more convenient using functional programming', function(){
+		it('is more readable and more convenient using functional programming', () => {
 			// calculate total amount of bonus
 			// given to all employees with nationality equal "DE"
 			// whose salary is below 5000
@@ -36,7 +36,7 @@ describe('Functional programming', function(){
 			expect(totalBonus).toEqual(42499);
 		});
 
-		it('makes it easy to filter data by condition', function(){
+		it('makes it easy to filter data by condition', () => {
 			// fetch the employee with ID 651065
 			let employee651065;
 	
@@ -51,7 +51,7 @@ describe('Functional programming', function(){
 			expect(USEmployee.nationality).toEqual("US");
 		});
 	
-		it('makes it easy to filter data by condition', function(){
+		it('makes it easy to filter data by condition', () => {
 			// fetch all employees with nationality DE only
 			let DEEmployees;
 	
@@ -69,7 +69,7 @@ describe('Functional programming', function(){
 		});
 	});
 
-	it('should search for a single objects by maximum value among collection', function(){
+	it('should search for a single objects by maximum value among collection', () => {
 		// fetch the phone to the richest employee who is American
 		// or (gives the same result in this case)
 		// fetch the phone to the richest American

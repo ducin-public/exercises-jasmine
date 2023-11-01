@@ -2,10 +2,10 @@ import db from '../../data/data';
 
 const employees = db.getEmployees();
 
-describe('Functional Programming', function(){
+describe('Functional Programming', () => {
 
-	describe('always function', function(){
-		it('returns the same value no matter the arguments', function(){
+	describe('always function', () => {
+		it('returns the same value no matter the arguments', () => {
 			// write the `always` closure function below which,
 			// once accepted an argument (while creating the closure),
 			// will always return it from that moment, no matter what
@@ -25,8 +25,8 @@ describe('Functional Programming', function(){
 		});
 	});
 
-	describe('unary function', function(){
-		it('can override arguments passed down to a function', function(){
+	describe('unary function', () => {
+		it('can override arguments passed down to a function', () => {
 			// introduction
 			// we saw that following code doesn't behave as expected:
 			//   ['1', '2', '3'].map(parseInt);
@@ -109,7 +109,7 @@ describe('Functional Programming', function(){
 		});
 	});
 
-	describe('method function', function(){
+	describe('method function', () => {
 		const dog = {
 			name: "Fluffy",
 			hello: function(){

@@ -46,7 +46,7 @@ describe('Immediately Invoked Function Expressions', () => {
 
 		var list = [];
 		for(var k = 0; k < 25; k += 2){
-			list.push(function(){
+			list.push(() => {
 				return [k, k*k];
 			});
 		}

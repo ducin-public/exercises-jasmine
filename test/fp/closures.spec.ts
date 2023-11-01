@@ -1,6 +1,6 @@
-describe('Closures', function(){
+describe('Closures', () => {
 
-	it('can hold private data - incrementer', function(){
+	it('can hold private data - incrementer', () => {
 		// write incrementer function below
 		// each `incrementer` call returns a function which, when called, increments the counter with +1 and returns the new value
 		// the initial value of the counter is 0
@@ -20,7 +20,7 @@ describe('Closures', function(){
 		expect(inc2()).toEqual(4);
 	});
 
-	it('can hold private data - counter', function(){
+	it('can hold private data - counter', () => {
 		// write counter function below
 		// each `counter` call returns an object with 2 functions, inc and dec
 		// `inc`, when called, acts as `incrementer` above
@@ -43,7 +43,7 @@ describe('Closures', function(){
 		expect(c2.dec()).toEqual(-2);
 	});
 
-	it('can encapsulate domain logic', function(){
+	it('can encapsulate domain logic', () => {
 		// write finanseStorage function which will hold information about personal finanseStorage
 		// it will store all incomes and outcomes (numbers),
 		// each separately added via `saveIncome`/`saveOutcome` method.

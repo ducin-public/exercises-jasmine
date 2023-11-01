@@ -39,8 +39,8 @@ describe('coroutines', () => {
 			});
 	})
 
-	it('should perform asynchronous calls simultaneously', (done) => {
-		// write a coroutine which will request data of 4 employees SIMULTANEOUSLY (all at the same time)
+	it('should perform asynchronous calls concurrently', (done) => {
+		// write a coroutine which will request data of 4 employees CONCURRENTLY (all at the same time)
 		// and return list of these 4 employees to make `expect` calls pass
 		// the data expectations are the same as in previous exercise
 

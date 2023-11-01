@@ -1,20 +1,20 @@
 import { PubSub } from './pubsub';
 
-describe('Publisher-Subscriber', function(){
+describe('Publisher-Subscriber', () => {
 
 	let pubsub: PubSub,
 		consumerA: jasmine.Spy<jasmine.Func>,
 		consumerB: jasmine.Spy<jasmine.Func>,
 		consumerC: jasmine.Spy<jasmine.Func>;
 
-	beforeEach(function(){
+	beforeEach(() => {
 		pubsub = new PubSub();
 		consumerA = jasmine.createSpy('consumerA');
 		consumerB = jasmine.createSpy('consumerB');
 		consumerC = jasmine.createSpy('consumerC');
 	});
 
-	it("doesn't emit any message if there's no listener", function(){
+	it("doesn't emit any message if there's no listener", () => {
 		let message = { operation: "PROCESS"};
 		pubsub.publish('operations', message);
 
@@ -23,7 +23,7 @@ describe('Publisher-Subscriber', function(){
 		expect(consumerC).not.toHaveBeenCalled();
 	});
 
-	it('emits a message to a single listener', function(){
+	it('emits a message to a single listener', () => {
 		pubsub.subscribe('operations', consumerA);
 
 		let message = { operation: "PROCESS"};
@@ -34,7 +34,7 @@ describe('Publisher-Subscriber', function(){
 		expect(consumerC).not.toHaveBeenCalled();
 	});
 
-	it('emits a message to multiple listeners', function(){
+	it('emits a message to multiple listeners', () => {
 		pubsub.subscribe('operations', consumerA);
 		pubsub.subscribe('operations', consumerB);
 		pubsub.subscribe('operations', consumerC);
@@ -47,7 +47,7 @@ describe('Publisher-Subscriber', function(){
 		expect(consumerC).toHaveBeenCalledWith(message);
 	});
 
-	it('emits messages on a certain channel', function(){
+	it('emits messages on a certain channel', () => {
 		pubsub.subscribe('operations', consumerA);
 
 		let message1 = { operation: "PROCESS"};
@@ -62,7 +62,7 @@ describe('Publisher-Subscriber', function(){
 		expect(consumerC).not.toHaveBeenCalled(); // at all
 	});
 
-	it('emits messages on multiple channels', function(){
+	it('emits messages on multiple channels', () => {
 		pubsub.subscribe('operations', consumerA);
 		pubsub.subscribe('operations', consumerB);
 
@@ -83,7 +83,7 @@ describe('Publisher-Subscriber', function(){
 		expect(consumerC).toHaveBeenCalledWith(message2);
 	});
 
-	it('stops emitting messages to unsubscribed listeners', function(){
+	it('stops emitting messages to unsubscribed listeners', () => {
 		pubsub.subscribe('operations', consumerA);
 
 		let message1 = { operation: "PROCESS-1"};

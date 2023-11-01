@@ -38,7 +38,7 @@ describe('Cloning', () => {
 				a: 1,
 				b: 2,
 				c: 3,
-				hello: function(){ console.log('hello') }
+				hello(){ console.log('hello') }
 			};
 			var clone1 = shallowClone(src1);
 			expect(src1 == clone1).toEqual(false);
@@ -50,7 +50,7 @@ describe('Cloning', () => {
 				h: 8,
 				i: 9,
 				j: 10,
-				hello: function(){ console.log('hello') }
+				hello(){ console.log('hello') }
 			};
 			var clone2 = shallowClone(src2);
 			expect(src2 == clone2).toEqual(false);
@@ -75,7 +75,7 @@ describe('Cloning', () => {
 					y: 12,
 					z: 13
 				},
-				hello: function(){ console.log('hello') }
+				hello(){ console.log('hello') }
 			};
 			var clone = deepClone(src);
 			expect(src == clone).toEqual(false);
@@ -98,7 +98,7 @@ describe('Cloning', () => {
 						}
 					}
 				},
-				hello: function(){ console.log('hello') }
+				hello(){ console.log('hello') }
 			};
 			var clone = deepClone(src);
 			expect(src == clone).toEqual(false);
