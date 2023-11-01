@@ -55,21 +55,21 @@ module.exports = function (config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
-    // specReporter: {
+    specReporter: {
     //   suppressErrorSummary: false,  // do not print error summary 
     //   suppressFailed: false,  // do not print information about failed tests 
     //   suppressPassed: true,  // do not print information about passed tests 
-    //   suppressSkipped: true,  // do not print information about skipped tests 
+      suppressSkipped: true,  // do not print information about skipped tests 
     //   showSpecTiming: false  // print the time elapsed for each spec 
-    // },
+    },
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
-      'Chrome',
+      // 'Chrome',
       'ChromeHeadless',
-      'Firefox',
-      'FirefoxHeadless',
+      // 'Firefox',
+      // 'FirefoxHeadless',
       // 'Safari',
     ],
 
