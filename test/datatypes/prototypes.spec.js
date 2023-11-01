@@ -16,13 +16,13 @@ describe('Prototypes', () => {
 			var paul = new Person("Paul", "McCartney");
 			var john = new Person("John", "Lennon", 40);
 
-			expect(paul.age).toEqual( /* YOUR ANSWER HERE */ );
-			expect(john.age).toEqual( /* YOUR ANSWER HERE */ );
+			expect(paul.age).toEqual( /* YOUR ANSWER HERE 😇 */ );
+			expect(john.age).toEqual( /* YOUR ANSWER HERE 😇 */ );
 
 			Person.prototype.age = 23;
 
-			expect(paul.age).toEqual( /* YOUR ANSWER HERE */ );
-			expect(john.age).toEqual( /* YOUR ANSWER HERE */ );
+			expect(paul.age).toEqual( /* YOUR ANSWER HERE 😇 */ );
+			expect(john.age).toEqual( /* YOUR ANSWER HERE 😇 */ );
 		});
 	});
 
